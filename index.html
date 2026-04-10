@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>五一带娃出行攻略 · 北京出发</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+  background: #f7f3ee; color: #2d2d2d; line-height: 1.6;
+}
+.hero {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #f9ca24 100%);
+  color: white; padding: 48px 24px 40px; text-align: center;
+}
+.hero .badge {
+  display: inline-block; background: rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.4); border-radius: 20px;
+  padding: 4px 14px; font-size: 12px; letter-spacing: 1px; margin-bottom: 14px;
+}
+.hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.hero p { font-size: 14px; opacity: 0.9; margin-bottom: 20px; }
+.hero-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.hero-tag { background: rgba(255,255,255,0.2); border-radius: 12px; padding: 4px 12px; font-size: 12px; }
+.tab-bar {
+  background: white; display: flex; overflow-x: auto; padding: 0 16px;
+  border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; scrollbar-width: none;
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab {
+  flex-shrink: 0; padding: 14px 16px; font-size: 13px; color: #888;
+  cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.2s;
+}
+.tab.active { color: #ee5a24; border-bottom-color: #ee5a24; font-weight: 600; }
+.content { padding: 16px; max-width: 800px; margin: 0 auto; }
+.section { display: none; }
+.section.active { display: block; }
+.card {
+  background: white; border-radius: 16px; padding: 20px;
+  margin-bottom: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.card-rank {
+  width: 36px; height: 36px; border-radius: 10px; display: flex;
+  align-items: center; justify-content: center; font-size: 16px;
+  font-weight: 700; color: white; flex-shrink: 0;
+}
+.rank-1 { background: linear-gradient(135deg, #f9ca24, #f0932b); }
+.rank-2 { background: linear-gradient(135deg, #c0c0c0, #a0a0a0); }
+.rank-3 { background: linear-gradient(135deg, #cd7f32, #a0522d); }
+.rank-n { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
+.card-title-area { flex: 1; }
+.card-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+.card-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.tag { font-size: 11px; padding: 2px 8px; border-radius: 8px; font-weight: 500; }
+.tag-time { background: #fff3e0; color: #e65100; }
+.tag-crowd { background: #e8f5e9; color: #2e7d32; }
+.tag-type { background: #e3f2fd; color: #1565c0; }
+.tag-warn { background: #fce4ec; color: #c62828; }
+.tag-price { background: #f3e5f5; color: #6a1b9a; }
+.card-desc { font-size: 14px; color: #555; margin-bottom: 14px; line-height: 1.7; }
+.highlights { margin-bottom: 14px; }
+.highlight-item { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: #444; padding: 4px 0; }
+.highlight-icon { flex-shrink: 0; }
+.comments-section { border-top: 1px solid #f0f0f0; padding-top: 12px; }
+.comments-title { font-size: 12px; color: #999; margin-bottom: 8px; }
+.comment-item {
+  background: #f8f8f8; border-radius: 10px; padding: 10px 12px;
+  margin-bottom: 8px; font-size: 13px;
+}
+.comment-user { color: #ee5a24; font-weight: 600; margin-right: 4px; }
+.comment-like { color: #aaa; font-size: 11px; margin-left: 4px; }
+.comment-warn { background: #fff8e1; border-left: 3px solid #ffc107; }
+.cost-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.cost-item { background: #f8f8f8; border-radius: 10px; padding: 10px 12px; text-align: center; }
+.cost-label { font-size: 11px; color: #999; margin-bottom: 2px; }
+.cost-value { font-size: 15px; font-weight: 700; color: #ee5a24; }
+.compare-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+.compare-table th { background: #fff3e0; color: #e65100; padding: 10px 8px; text-align: left; font-weight: 600; }
+.compare-table td { padding: 10px 8px; border-bottom: 1px solid #f5f5f5; vertical-align: middle; }
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:hover td { background: #fafafa; }
+.stars { color: #4caf50; }
+.alert {
+  background: #fff8e1; border: 1px solid #ffe082; border-radius: 10px;
+  padding: 12px 14px; font-size: 13px; color: #5d4037; margin-bottom: 12px;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.footer { text-align: center; padding: 32px 24px; color: #bbb; font-size: 12px; }
+.section-title {
+  font-size: 13px; font-weight: 700; color: #999; text-transform: uppercase;
+  letter-spacing: 1px; margin: 20px 0 12px; padding-left: 4px;
+}
+.letian-hero {
+  background: linear-gradient(135deg, #00b4d8, #0077b6);
+  border-radius: 16px; padding: 20px; color: white; margin-bottom: 16px; text-align: center;
+}
+.letian-hero h2 { font-size: 20px; margin-bottom: 6px; }
+.letian-hero p { font-size: 13px; opacity: 0.9; }
+.itinerary-day { border-left: 3px solid #ee5a24; padding-left: 14px; margin-bottom: 16px; }
+.itinerary-day h3 { font-size: 15px; font-weight: 700; color: #ee5a24; margin-bottom: 8px; }
+.itinerary-item { font-size: 13px; color: #555; padding: 4px 0; display: flex; gap: 8px; }
+.time-badge {
+  background: #fff3e0; color: #e65100; font-size: 11px; padding: 1px 6px;
+  border-radius: 6px; flex-shrink: 0; height: fit-content; margin-top: 2px;
+}
+.age-card { background: #f8f8f8; border-radius: 10px; padding: 14px; margin-bottom: 10px; }
+.age-label { font-weight: 700; color: #ee5a24; margin-bottom: 4px; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">🔴 小红书真实数据整理 · 20个目的地</div>
+  <h1>五一带娃出行攻略</h1>
+  <p>北京出发 · 高铁2小时内 · 人少不堵车 · 3-6岁适用</p>
+  <div class="hero-tags">
+    <span class="hero-tag">🚄 高铁直达</span>
+    <span class="hero-tag">👶 3-6岁亲测</span>
+    <span class="hero-tag">🌿 人少清净</span>
+    <span class="hero-tag">💰 含花费参考</span>
+    <span class="hero-tag">💬 评论区真实反馈</span>
+  </div>
+</div>
+
+<div class="tab-bar">
+  <div class="tab active" onclick="switchTab(0)">🏆 TOP推荐</div>
+  <div class="tab" onclick="switchTab(1)">🌊 乐亭专线</div>
+  <div class="tab" onclick="switchTab(2)">📋 20个目的地</div>
+  <div class="tab" onclick="switchTab(3)">👶 按年龄选</div>
+  <div class="tab" onclick="switchTab(4)">⚠️ 避坑</div>
+</div>
+
+<!-- TAB 0: TOP推荐 -->
+<div class="section active" id="tab0">
+<div class="content">
+  <div class="alert">💡 综合小红书近期高赞笔记（最高33561赞）及评论区真实反馈整理，非广告。</div>
+
+  <div class="section-title">🥇 五一带娃首选 TOP 3</div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-rank rank-1">1</div>
+      <div class="card-title-area">
+        <div class="card-title">雄安新区 · 辛玛乐园</div>
+        <div class="card-meta">
+          <span class="tag tag-time">🚄 高铁50分钟</span>
+          <span class="tag tag-crowd">🌿 人超少</span>
+          <span class="tag tag-type">🎠 亲子乐园</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-desc">评论区博主亲测：<strong>"一路畅通，没什么人"</strong>，周末去都不拥挤。室内外结合的儿童乐园，有斑马、动物互动区，景酒套餐含门票，刷卡直接进出。3-6岁孩子最爱。</div>
+    <div class="highlights">
+      <div class="highlight-item"><span class="highlight-icon">✅</span>辛玛乐园 — 室内外亲子乐园，含动物互动，3岁以上都适合</div>
+      <div class="highlight-item"><span class="highlight-icon">✅</span>景区旁民宿有景酒套餐，含辛玛门票</div>
+      <div class="highlight-item"><span class="highlight-icon">✅</span>索菲特酒店 ¥1000+/晚，品质有保障</div>
+      <div class="highlight-item"><span class="highlight-icon">⚠️</span>景区内建议租代步车，否则带娃走路很累</div>
+    </div>
+    <div class="cost-grid">
+      <div class="cost-item"><div class="cost-label">高铁往返</div><div class="cost-value">~¥200</div></div>
+      <div class="cost-item"><div class="cost-label">住宿/晚</div><div class="cost-value">¥800-1500</div></div>
+      <div class="cost-item"><div class="cost-label">餐饮/天</div><div class="cost-value">¥200-400</div></div>
+      <div class="cost-item"><div class="cost-label">人均总费用</div><div class="cost-value">¥800-1200</div></div>
+    </div>
+    <div class="comments-section">
+      <div class="comments-title">💬 评论区真实反馈</div>
+      <div class="comment-item"><span class="comment-user">@遛娃博主</span>一路畅通，没什么人，周末去都很舒服<span class="comment-like">👍15</span></div>
+      <div class="comment-item comment-warn"><span class="comment-user">⚠️ 提醒</span>十一价格翻倍，五一同理，住宿提前预订！</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-rank rank-2">2</div>
+      <div class="card-title-area">
+        <div class="card-title">德州齐河 · 欧乐堡动物王国</div>
+        <div class="card-meta">
+          <span class="tag tag-time">🚄 高铁1.5小时</span>
+          <span class="tag tag-crowd">🌿 较少</span>
+          <span class="tag tag-type">🦒 动物主题</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-desc">北方最值得带娃的动物主题园，可以<strong>住进长颈鹿庄园</strong>，早餐时隔窗喂长颈鹿，孩子直接疯了。被称为"不用去肯尼亚也能拍出动物世界大片"（高赞3300+）。</div>
+    <div class="highlights">
+      <div class="highlight-item"><span class="highlight-icon">🦒</span>绿叶子餐厅早餐喂长颈鹿（进门右手边第一餐区阳光最好）</div>
+      <div class="highlight-item"><span class="highlight-icon">🐒</span>环尾狐猴、长颈鹿互动不额外收费</div>
+      <div class="highlight-item"><span class="highlight-icon">✅</span>不住宿仅门票约 ¥200/人，3岁以上都适合</div>
+      <div class="highlight-item"><span class="highlight-icon">⚠️</span>住宿需提前2周以上预订，五一会满房</div>
+    </div>
+    <div class="cost-grid">
+      <div class="cost-item"><div class="cost-label">高铁往返</div><div class="cost-value">~¥300</div></div>
+      <div class="cost-item"><div class="cost-label">门票/人</div><div class="cost-value">¥200</div></div>
+      <div class="cost-item"><div class="cost-label">住宿套餐</div><div class="cost-value">¥1500-2500</div></div>
+      <div class="cost-item"><div class="cost-label">人均总费用</div><div class="cost-value">¥700-1000</div></div>
+    </div>
+    <div class="comments-section">
+      <div class="comments-title">💬 评论区真实反馈</div>
+      <div class="comment-item"><span class="comment-user">@韭菜盒子小姐</span>出片机位：绿叶子餐厅进门右手边第一餐区，阳光好，长颈鹿最爱去<span class="comment-like">👍38</span></div>
+      <div class="comment-item"><span class="comment-user">@都挺哏儿</span>3岁半适合吗？博主回复：适合的<span class="comment-like">👍1</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-rank rank-3">3</div>
+      <div class="card-title-area">
+        <div class="card-title">天津滨海新区 · 12个亲子景点</div>
+        <div class="card-meta">
+          <span class="tag tag-time">🚄 高铁30分钟</span>
+          <span class="tag tag-crowd">🌿 适中</span>
+          <span class="tag tag-type">🏙️ 城市亲子</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-desc">博主三刷总结12个亲子+看海景点，评论区天津本地人补充更多。<strong>国家海洋博物馆、东疆公园、滨海图书馆</strong>都在附近，一次玩够。</div>
+    <div class="highlights">
+      <div class="highlight-item"><span class="highlight-icon">🐋</span>国家海洋博物馆 — 孩子超爱（注意：现已收费，两大一小约¥100）</div>
+      <div class="highlight-item"><span class="highlight-icon">📚</span>滨海图书馆 — 网红打卡地，孩子拍照出片</div>
+      <div class="highlight-item"><span class="highlight-icon">🏖️</span>东疆公园 — 看海+沙滩，4岁娃两天一宿路线成熟</div>
+      <div class="highlight-item"><span class="highlight-icon">⚠️</span>蚊子多！评论区强烈建议带超强驱蚊水</div>
+    </div>
+    <div class="cost-grid">
+      <div class="cost-item"><div class="cost-label">高铁往返</div><div class="cost-value">~¥100</div></div>
+      <div class="cost-item"><div class="cost-label">人均总费用</div><div class="cost-value">¥500-800</div></div>
+    </div>
+    <div class="comments-section">
+      <div class="comments-title">💬 评论区真实反馈</div>
+      <div class="comment-item"><span class="comment-user">@本地人</span>还可以+临港海岸线公园、南湾公园、大神堂海港、鲤鱼门渔港<span class="comment-like">👍10</span></div>
+      <div class="comment-item comment-warn"><span class="comment-user">⚠️ @小叮当</span>天津蚊子超毒！叮咬后巨难受还会肿，带超强驱蚊水！<span class="comment-like">👍5</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">🌟 强烈推荐 4-10</div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-rank rank-n">4</div>
+      <div class="card-title-area">
+        <div class="card-title">锦州 · 笔架山 + 烤串夜市</div>
+        <div class="card-meta">
+          <span class="tag tag-time">🚄 高铁2.5小时</span>
+          <span class="tag tag-crowd">🌿 人极少</span>
+          <span class="tag tag-type">🌊 海边奇观</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-desc">评论区高赞推荐（高赞53）：<strong>"无人可比的锦州烤串+大夜市+神奇的笔架山"</strong>。笔架山涨潮是岛、退潮走路进岛，天然奇观，孩子极感兴趣。</div>
+    <div class="highlights">
+      <div class="highlight-item"><span class="highlight-icon">🏝️</span>笔架山 — 潮汐奇观，退潮走路进岛，孩子超感兴趣</div>
+      <div class="highlight-item"><span class="highlight-icon">🍢</span>锦州烤串夜市 — 全国公认，带孩子吃夜市体验感极佳</div>
+      <div class="highlight-item"><span class="highlight-icon">✅</span>旅游圈知名度低，五一人流极少</div>
+    </div>
+    <div class="cost-grid">
+      <div class="cost-item"><div class="cost-label">高铁往返</div><div class="cost-value">~¥400</div></div>
+      <div class="cost-item"><div class="cost-label">人均总费用</div><div class="cost-value">¥600-900</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-rank rank-n">5</div>
+      <div class="card-title-area">
+        <div class="card-title">正定古城（石家庄）</div>
+        <div class="card-meta">
+          <span class="tag tag-time">🚄 高铁1.2小时</span>
+          <span class="tag tag-crowd">🌿 人少</span>
+          <span class="tag tag-price">💰 极低消费</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-desc">离北京最近的古城，免费景点多。隆兴寺千年古建，荣国府（红楼梦拍摄地）带娃认识名著，正定夜市烟火气十足孩子爱吃。</div>
+    <div class="highlights">
+      <div class="highlight-item"><span class="highlight-icon">🏯</span>隆兴寺 — 千年古寺，评论区反复推荐"值得一看"</div>
+      <div class="highlight-item"><span class="highlight-icon">🎭</span>荣国府 — 红楼梦取景地</div>
+      <div class="highlight-item"><span class="highlight-icon">🍜</span>正定夜市 — 烟火气十足，孩子爱逛爱吃</div>
+    </div>
+    <div class="cost-grid">
+      <div class="cost-item"><div class="cost-label">高铁往返</div><div class="cost-value">~¥200</div></div>
+      <div class="cost-item"><div class="cost-label">人均总费用</div><div class="cost-value">¥400-700</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-rank rank-n">6</div>
+      <div class="card-title-area">
+        <div class="card-title">济南 · 北方小江南</div>
+        <div class="card-meta">
+          <span class="tag tag-time">🚄 高铁1.5小时</span>
+          <span class="tag tag-crowd">🌿 适中</span>
+          <span class="tag tag-type">💧 泉水古城</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-desc">被称为"被严重低估的北方小江南"（高赞2814）。泉水可以让孩子近距离摸，大明湖划船喂鱼，狐仙游园会18:00 NPC巡游，孩子超爱。</div>
+    <div class="highlights">
+      <div class="highlight-item"><span class="highlight-icon">💧</span>趵突泉+黑虎泉 — 免费，孩子对喷涌泉水极感兴趣</div>
+      <div class="highlight-item"><span class="highlight-icon">🚤</span>大明湖 — 划船、喂鱼，适合3岁+</div>
+      <div class="highlight-item"><span class="highlight-icon">🎭</span>狐仙游园会 — 18:00 NPC巡游，孩子超爱</div>
+    </div>
+    <div class="cost-grid">
+      <div class="cost-item"><div class="cost-label">高铁往返</div><div class="cost-value">~¥250</div></div>
+      <div class="cost-item"><div class="cost-label">人均总费用</div><div class="cost-value">¥500-800</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-rank rank-n">7</div>
+      <div class="card-title-area">
+        <div class="card-title">荣成·威海 · 儿童友好城市</div>
+        <div class="card-meta">
+          <span class="tag tag-time">🚄 高铁3小时</span>
+          <span class="tag tag-crowd">🌿 较少</span>
+          <span class="tag tag-type">🌊 海边赶海</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-desc">博主评价"迄今为止最爱的儿童友好城市"（高赞3465），评论区妈妈说<strong>"恨不得住一个月，孩子到现在都说今年暑假再去"</strong>（高赞74）。</div>
+    <div class="highlights">
+      <div class="highlight-item"><span class="highlight-icon">🦢</span>天鹅湖 — 冬春可看天鹅，孩子近距离接触</div>
+      <div class="highlight-item"><span class="highlight-icon">🦀</span>赶海 — 海驴岛出海看海鸥，孩子超兴奋</div>
+      <div class="highlight-item"><span class="highlight-icon">⚠️</span>栖霞口动物园五一人多，评论区说"被挤爆了"，可避开</div>
+      <div class="highlight-item"><span class="highlight-icon">⚠️</span>五一水温约19度，不适合下水，适合赶海玩沙</div>
+    </div>
+    <div class="cost-grid">
+      <div class="cost-item"><div class="cost-label">高铁往返</div><div class="cost-value">~¥500</div></div>
+      <div class="cost-item"><div class="cost-label">人均总费用</div><div class="cost-value">¥700-1000</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-rank rank-n">8</div>
+      <div class="card-title-area">
+        <div class="card-title">苏州 · 糖果乐园 + 西山岛</div>
+        <div class="card-meta">
+          <span class="tag tag-time">🚄 高铁约5小时</span>
+          <span class="tag tag-crowd">🌿 适中</span>
+          <span class="tag tag-type">🎠 主题乐园</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-desc">博主带娃亲测（高赞4483），<strong>糖果世界乐园</strong>项目丰富不刺激，低幼龄孩子最爱。西山岛不收门票，岛上咖啡+农场，亲子度假感极强。</div>
+    <div class="highlights">
+      <div class="highlight-item"><span class="highlight-icon">🍬</span>糖果世界 — 1米以上孩子适合，眼花缭乱超开心</div>
+      <div class="highlight-item"><span class="highlight-icon">🏝️</span>西山岛 — 免门票，无动力农场设施随便玩</div>
+      <div class="highlight-item"><span class="highlight-icon">🏊</span>酒店游乐园+游泳池，无需预订直接玩</div>
+    </div>
+    <div class="cost-grid">
+      <div class="cost-item"><div class="cost-label">高铁往返</div><div class="cost-value">~¥800</div></div>
+      <div class="cost-item"><div class="cost-label">人均总费用</div><div class="cost-value">¥800-1200</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-rank rank-n">9</div>
+      <div class="card-title-area">
+        <div class="card-title">养马岛·烟台 · 果冻海赶海</div>
+        <div class="card-meta">
+          <span class="tag tag-time">🚄 高铁2.5小时</span>
+          <span class="tag tag-crowd">🌿 较少</span>
+          <span class="tag tag-type">🌊 赶海</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-desc">烟台本地人推荐，"果冻海"颜色极美。养马岛是赶海最佳点，比青岛人少很多，沙滩细腻，海边基础设施完善。</div>
+    <div class="highlights">
+      <div class="highlight-item"><span class="highlight-icon">🦀</span>养马岛 — 赶海最佳点，孩子挖螃蟹花蛤</div>
+      <div class="highlight-item"><span class="highlight-icon">🌊</span>果冻海 — 烟台独特海水颜色，极美出片</div>
+      <div class="highlight-item"><span class="highlight-icon">⚠️</span>五一水温偏凉，适合赶海玩沙，不建议下水</div>
+    </div>
+    <div class="cost-grid">
+      <div class="cost-item"><div class="cost-label">高铁往返</div><div class="cost-value">~¥400</div></div>
+      <div class="cost-item"><div class="cost-label">人均总费用</div><div class="cost-value">¥600-900</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-rank rank-n">10</div>
+      <div class="card-title-area">
+        <div class="card-title">信阳（河南）· 田园古村</div>
+        <div class="card-meta">
+          <span class="tag tag-time">🚄 高铁3.5小时</span>
+          <span class="tag tag-crowd">🌿 人极少</span>
+          <span class="tag tag-type">🌾 田园乡村</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-desc">被称为"河南被严重低估的宝藏小城"（高赞7830）。星宿川、鸡公山、郝堂村，景色如画。评论区妈妈确认：<strong>2岁宝宝去没啥山要爬</strong>，亲子友好。</div>
+    <div class="highlights">
+      <div class="highlight-item"><span class="highlight-icon">🌿</span>星宿川 — 山水田园，极出片</div>
+      <div class="highlight-item"><span class="highlight-icon">🏡</span>郝堂村 — 原生态古村，带娃感受乡村生活</div>
+      <div class="highlight-item"><span class="highlight-icon">⛰️</span>鸡公山 — 不用爬大山，孩子轻松游</div>
+    </div>
+    <div class="cost-grid">
+      <div class="cost-item"><div class="cost-label">高铁往返</div><div class="cost-value">~¥500</div></div>
+      <div class="cost-item"><div class="cost-label">人均总费用</div><div class="cost-value">¥600-900</div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- TAB 1: 乐亭专线 -->
+<div class="section" id="tab1">
+<div class="content">
+  <div class="letian-hero">
+    <h2>🏖️ 北京 → 唐山乐亭</h2>
+    <p>6大人 + 3小孩 · 3天2夜自驾攻略</p>
+  </div>
+  <div class="card">
+    <div class="card-title" style="margin-bottom:12px">📍 基本信息</div>
+    <div class="highlights">
+      <div class="highlight-item"><span class="highlight-icon">🚗</span>自驾约 3-3.5 小时（京哈高速→秦滨高速）</div>
+      <div class="highlight-item"><span class="highlight-icon">🌡️</span>五一气温：中午暖，早晚凉，<strong>海风极大</strong>，必备外套</div>
+      <div class="highlight-item"><span class="highlight-icon">👨‍👩‍👧‍👦</span>9人出行建议：包栋别墅 > 两间民宿</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="margin-bottom:16px">🗓️ 3天2夜行程</div>
+    <div class="itinerary-day">
+      <h3>DAY 1 · 出发 + 初体验</h3>
+      <div class="itinerary-item"><span class="time-badge">上午</span>北京出发，建议8点前出发避开高峰</div>
+      <div class="itinerary-item"><span class="time-badge">中午</span>抵达乐亭，吃<strong>乐亭吊炉烧饼</strong>（评论区一致好评，酥脆香）</div>
+      <div class="itinerary-item"><span class="time-badge">下午</span>唐山湾国际旅游岛，有遮阴亭子，适合3-6岁玩沙</div>
+      <div class="itinerary-item"><span class="time-badge">傍晚</span>海边栈道散步看日落，入住民宿</div>
+    </div>
+    <div class="itinerary-day">
+      <h3>DAY 2 · 深度赶海</h3>
+      <div class="itinerary-item"><span class="time-badge">上午</span><strong>月坨岛</strong>（坐船约30分钟），岛上水上木屋拍照出片</div>
+      <div class="itinerary-item"><span class="time-badge">下午</span>金沙滩赶海，<strong>鲸落位置</strong>适合孩子挖螃蟹花蛤</div>
+      <div class="itinerary-item"><span class="time-badge">晚上</span>民宿院子自助烧烤（别墅民宿大多提供烧烤架）</div>
+    </div>
+    <div class="itinerary-day">
+      <h3>DAY 3 · 慢生活 + 返程</h3>
+      <div class="itinerary-item"><span class="time-badge">上午</span>跟着本地人赶海，捡贝壳（退潮后出门就能玩）</div>
+      <div class="itinerary-item"><span class="time-badge">中午</span>采买海鲜干货，吃最后一顿海鲜</div>
+      <div class="itinerary-item"><span class="time-badge">下午</span>轻松返京</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="margin-bottom:12px">🏠 住宿推荐（9人）</div>
+    <div class="comment-item" style="margin-bottom:10px">
+      <strong>🥇 海边别墅包栋（首推）</strong><br>
+      <span style="font-size:13px;color:#555">价格：¥800-1500/晚（整栋）· 3-4个房间+厨房+院子，出门就能赶海，可烧烤</span>
+    </div>
+    <div class="comment-item">
+      <strong>🥈 月坨岛水上木屋</strong><br>
+      <span style="font-size:13px;color:#555">价格：¥300-600/间 · 适合追求出片，设施一般</span>
+    </div>
+    <div class="comment-item comment-warn">⚠️ 月坨岛五一极火爆，需提前2周以上预订。设施陈旧海风大，追求舒适建议住岸上别墅</div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="margin-bottom:12px">💰 6大3小费用预算</div>
+    <div class="cost-grid">
+      <div class="cost-item"><div class="cost-label">油费+过路费（往返）</div><div class="cost-value">¥600-800</div></div>
+      <div class="cost-item"><div class="cost-label">住宿（2晚别墅）</div><div class="cost-value">¥2000-3000</div></div>
+      <div class="cost-item"><div class="cost-label">餐饮（3天）</div><div class="cost-value">¥2500-3500</div></div>
+      <div class="cost-item"><div class="cost-label">月坨岛船票+门票</div><div class="cost-value">~¥800</div></div>
+    </div>
+    <div style="text-align:center;margin-top:14px;padding:12px;background:#fff3e0;border-radius:10px">
+      <div style="font-size:12px;color:#999;margin-bottom:4px">总计预算</div>
+      <div style="font-size:24px;font-weight:700;color:#ee5a24">¥6000 - ¥8000</div>
+      <div style="font-size:12px;color:#aaa">人均约 ¥1000（含孩子）</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="margin-bottom:12px">⚠️ 评论区避坑提醒</div>
+    <div class="comment-item comment-warn">⚠️ 五一海风极大极冷，早晚必备防风外套，孩子容易着凉</div>
+    <div class="comment-item comment-warn">⚠️ 赶海挖花蛤黑泥层有腥味，给孩子备好赶海靴+长柄铲</div>
+    <div class="comment-item comment-warn">⚠️ 浅水湾部分区域可能在修整，出发前联系民宿管家确认</div>
+    <div class="comment-item">✅ 唐山湾有遮阴亭，3-6岁孩子推荐这里，不会暴晒</div>
+    <div class="comment-item">✅ 跟着本地人走，他们知道哪里货多</div>
+    <div class="comment-item">✅ 乐亭烧饼必吃，评论区一致好评"酥脆香"</div>
+  </div>
+</div>
+</div>
+
+<!-- TAB 2: 20个目的地 -->
+<div class="section" id="tab2">
+<div class="content">
+  <div class="alert">📊 综合小红书20+篇高赞笔记整理，按人少程度排序</div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table class="compare-table">
+      <thead>
+        <tr><th>#</th><th>目的地</th><th>高铁</th><th>人少</th><th>核心亮点</th><th>人均</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td><strong>雄安·辛玛</strong></td><td>50分钟</td><td><span class="stars">●●●●●</span></td><td>亲子乐园+动物</td><td>¥800</td></tr>
+        <tr><td>2</td><td><strong>武清白沙滩</strong></td><td>30分钟</td><td><span class="stars">●●●●</span></td><td>最近的"海"</td><td>¥300</td></tr>
+        <tr><td>3</td><td><strong>正定古城</strong></td><td>1.2h</td><td><span class="stars">●●●●●</span></td><td>古寺+免费景点</td><td>¥500</td></tr>
+        <tr><td>4</td><td><strong>德州·欧乐堡</strong></td><td>1.5h</td><td><span class="stars">●●●●</span></td><td>喂长颈鹿</td><td>¥800</td></tr>
+        <tr><td>5</td><td><strong>济南</strong></td><td>1.5h</td><td><span class="stars">●●●●</span></td><td>泉水+夜游</td><td>¥700</td></tr>
+        <tr><td>6</td><td><strong>保定</strong></td><td>40分钟</td><td><span class="stars">●●●</span></td><td>驴肉火烧+白洋淀</td><td>¥600</td></tr>
+        <tr><td>7</td><td><strong>天津滨海新区</strong></td><td>30分钟</td><td><span class="stars">●●●</span></td><td>海博馆+东疆公园</td><td>¥600</td></tr>
+        <tr><td>8</td><td><strong>唐山·乐亭</strong></td><td>自驾3h</td><td><span class="stars">●●●●</span></td><td>赶海+水屋</td><td>¥1000</td></tr>
+        <tr><td>9</td><td><strong>锦州</strong></td><td>2.5h</td><td><span class="stars">●●●●●</span></td><td>烤串+笔架山</td><td>¥700</td></tr>
+        <tr><td>10</td><td><strong>养马岛·烟台</strong></td><td>2.5h</td><td><span class="stars">●●●●</span></td><td>赶海+果冻海</td><td>¥800</td></tr>
+        <tr><td>11</td><td><strong>日照</strong></td><td>3h</td><td><span class="stars">●●●●</span></td><td>细沙+慢生活</td><td>¥700</td></tr>
+        <tr><td>12</td><td><strong>日照艺术小镇</strong></td><td>3h</td><td><span class="stars">●●●●●</span></td><td>草地+出片</td><td>¥600</td></tr>
+        <tr><td>13</td><td><strong>荣成·威海</strong></td><td>3h</td><td><span class="stars">●●●</span></td><td>天鹅湖+赶海</td><td>¥800</td></tr>
+        <tr><td>14</td><td><strong>信阳</strong></td><td>3.5h</td><td><span class="stars">●●●●●</span></td><td>田园+古村</td><td>¥700</td></tr>
+        <tr><td>15</td><td><strong>苏州</strong></td><td>5h</td><td><span class="stars">●●●</span></td><td>糖果乐园+西山岛</td><td>¥1000</td></tr>
+        <tr><td>16</td><td><strong>崇左·广西</strong></td><td>飞机</td><td><span class="stars">●●●●●</span></td><td>4-5月花海+自然</td><td>¥1500</td></tr>
+        <tr><td>17</td><td><strong>陵水·海南</strong></td><td>飞机</td><td><span class="stars">●●●●</span></td><td>海边+赶海</td><td>¥1500</td></tr>
+        <tr><td>18</td><td><strong>弥勒·云南</strong></td><td>飞机</td><td><span class="stars">●●●●●</span></td><td>艺术小镇+花</td><td>¥1200</td></tr>
+        <tr><td>19</td><td><strong>安吉·浙江</strong></td><td>高铁+动车</td><td><span class="stars">●●●</span></td><td>竹林+长颈鹿庄园</td><td>¥900</td></tr>
+        <tr><td>20</td><td><strong>腾冲·云南</strong></td><td>飞机</td><td><span class="stars">●●●●●</span></td><td>和顺古镇+热海</td><td>¥1500</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section-title">🌱 草原类（五一草未绿，建议6月后）</div>
+  <div class="card">
+    <div class="highlights">
+      <div class="highlight-item"><span class="highlight-icon">⏳</span><strong>乌兰察布</strong> — 高铁2小时，五一草还没绿，6月后最佳</div>
+      <div class="highlight-item"><span class="highlight-icon">⏳</span><strong>呼和浩特</strong> — 高铁2.2小时，美食+草原，五一可去但草不绿</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- TAB 3: 按年龄选 -->
+<div class="section" id="tab3">
+<div class="content">
+  <div class="alert">👶 根据孩子年龄精准推荐，数据来自小红书评论区家长真实反馈</div>
+
+  <div class="section-title">3-4岁 · 以感官体验为主</div>
+  <div class="card">
+    <div class="age-card">
+      <div class="age-label">🥇 首选：德州欧乐堡</div>
+      <div style="font-size:13px;color:#555">喂长颈鹿、摸环尾狐猴，感官刺激强。评论区确认3岁半适合。</div>
+    </div>
+    <div class="age-card">
+      <div class="age-label">🥈 次选：雄安辛玛乐园</div>
+      <div style="font-size:13px;color:#555">室内为主，不怕晒不怕风，斑马互动区孩子超爱。</div>
+    </div>
+    <div class="age-card">
+      <div class="age-label">🥉 第三：唐山乐亭赶海</div>
+      <div style="font-size:13px;color:#555">挖沙挖螃蟹，感官体验极好。唐山湾有遮阴亭，不会暴晒。</div>
+    </div>
+    <div class="age-card">
+      <div class="age-label">➕ 也可以：天津滨海新区</div>
+      <div style="font-size:13px;color:#555">4岁娃两天一宿路线成熟，海博馆+东疆公园，近且方便。</div>
+    </div>
+  </div>
+
+  <div class="section-title">5-6岁 · 可以加入文化和探索元素</div>
+  <div class="card">
+    <div class="age-card">
+      <div class="age-label">🥇 首选：济南</div>
+      <div style="font-size:13px;color:#555">泉水可以摸，大明湖划船，狐仙游园会NPC互动，孩子参与感强。</div>
+    </div>
+    <div class="age-card">
+      <div class="age-label">🥈 次选：锦州</div>
+      <div style="font-size:13px;color:#555">笔架山涨退潮奇观，孩子理解"为什么会有岛"，科普意义强。</div>
+    </div>
+    <div class="age-card">
+      <div class="age-label">🥉 第三：正定古城</div>
+      <div style="font-size:13px;color:#555">隆兴寺+荣国府，5-6岁孩子开始能理解历史故事，性价比极高。</div>
+    </div>
+    <div class="age-card">
+      <div class="age-label">➕ 也可以：苏州糖果乐园</div>
+      <div style="font-size:13px;color:#555">1米以上即可，项目丰富不刺激，西山岛无动力农场孩子爱玩。</div>
+    </div>
+  </div>
+
+  <div class="section-title">💡 通用建议</div>
+  <div class="card">
+    <div class="highlights">
+      <div class="highlight-item"><span class="highlight-icon">🧥</span>五一海边早晚凉，带娃必备防风外套</div>
+      <div class="highlight-item"><span class="highlight-icon">🎫</span>高铁票提前抢，2小时圈热门车次五一极难买</div>
+      <div class="highlight-item"><span class="highlight-icon">🏨</span>住宿提前2周预订，五一热门地区早订早便宜</div>
+      <div class="highlight-item"><span class="highlight-icon">👢</span>赶海装备：赶海靴+长柄铲+水桶，黑泥层有腥味</div>
+      <div class="highlight-item"><span class="highlight-icon">🦟</span>天津/密云等树多水多的地方蚊子多，带花露水</div>
+      <div class="highlight-item"><span class="highlight-icon">🚗</span>大型景区内建议租代步车，带娃步行太累</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- TAB 4: 避坑 -->
+<div class="section" id="tab4">
+<div class="content">
+  <div class="section-title">❌ 五一评论区劝退榜</div>
+  <div class="card">
+    <div class="comment-item comment-warn"><strong>大同</strong> — 五一爆满，大饭店排队2小时起，建议平时周末去</div>
+    <div class="comment-item comment-warn"><strong>青州（山东）</strong> — 清明就已经人山人海，五一更挤</div>
+    <div class="comment-item comment-warn"><strong>邯郸</strong> — 高赞评论："盲去了，无聊到汗蒸泡一下午，没特色美食"</div>
+    <div class="comment-item comment-warn"><strong>廊坊</strong> — "啥都没有，没有共享单车"</div>
+    <div class="comment-item comment-warn"><strong>平潭岛</strong> — "风大，沙滩全是硌脚石头，谁去谁后悔"（高赞15）</div>
+    <div class="comment-item comment-warn"><strong>赤峰</strong> — "景区到市区比到北京还长，两天根本来不及"</div>
+    <div class="comment-item comment-warn"><strong>绵山（山西）</strong> — "进景区就被强制消费，坑了800元"</div>
+    <div class="comment-item comment-warn"><strong>荣成栖霞口动物园</strong> — 五一人多被挤爆，建议错峰或避开</div>
+  </div>
+  <div class="section-title">⚠️ 带娃特别注意</div>
+  <div class="card">
+    <div class="comment-item comment-warn">🌱 草原五一别去 — 草还没绿，去了白跑，建议6月以后</div>
+    <div class="comment-item comment-warn">🌊 五一北方海边水温约15-19度，不适合下水，适合赶海玩沙</div>
+    <div class="comment-item comment-warn">🦟 天津蚊子超毒，叮后肿大难受，带超强驱蚊水（评论区高赞5）</div>
+    <div class="comment-item comment-warn">📸 部分景点照片滤镜重，实际颜值打折，多看评论区真实反馈</div>
+  </div>
+</div>
+</div>
+
+<div class="footer">
+  📱 数据来源：小红书近期高赞笔记及评论区真实反馈（最高33561赞）<br>
+  整理时间：2026年4月 · 仅供参考，以实际情况为准
+</div>
+
+<script>
+function switchTab(index) {
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === index));
+  document.querySelectorAll('.section').forEach((s, i) => s.classList.toggle('active', i === index));
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
